@@ -14,7 +14,7 @@
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import { decimal_to_aptos_price } from '$lib/aptos_utils';
-	import { CONTRACT_ADDRESS } from '$lib/constants';
+	import { CONTRACT_ADDRESS, CONTRACT_MODULE } from '$lib/constants';
 
 
 	const walletContext = getWalletContext();
@@ -36,7 +36,7 @@
 			//sender: walletContext.account?.address,
 			data: {
 				//type: "entry_function_payload",
-				function: `${CONTRACT_ADDRESS}::my_auction::deposit`,
+				function: `${CONTRACT_ADDRESS}::${CONTRACT_MODULE}::deposit`,
 				typeArguments: [],
 				functionArguments: [tr_amount]
 			}
