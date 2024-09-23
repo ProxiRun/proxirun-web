@@ -4,6 +4,8 @@ import ClipboardList from '~icons/lucide/clipboard-list';
 import Send from '~icons/lucide/send';
 import SquareTerminal from '~icons/lucide/square-terminal';
 import MessagesSquare from '~icons/lucide/messages-square';
+import GraduationCap from '~icons/lucide/graduation-cap';
+
 
 
 
@@ -33,4 +35,9 @@ export const routes = [
         target: '/contact',
         icon: MessagesSquare
     },
+    {
+        label: "Docs",
+        target: "https://github.com/ProxiRun",
+        icon: GraduationCap
+    }
 ];

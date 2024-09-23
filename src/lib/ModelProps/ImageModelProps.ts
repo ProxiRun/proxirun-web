@@ -4,7 +4,6 @@ export enum AspectRatio {
     Portrait = "Portrait",
     Landscape = "Landscape",
     Square = "Square"
-
 }
 
 
@@ -24,6 +23,21 @@ export class ImageModelPropsUtils {
             aspect_ratio: AspectRatio.Portrait,
             config_scale: 8,
             nb_steps: 25
+        }
+    }
+}
+
+
+export interface VoiceModelProps {
+    prompt: string;
+    voice: string;
+}
+
+export class VoiceModelPropsUtils {
+    public static default(): VoiceModelProps {
+        return {
+            prompt: "",
+            voice: ""
         }
     }
 }

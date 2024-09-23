@@ -23,9 +23,9 @@
 
 	import { AUCTION_ABI } from '$lib/auction_abi';
 	import { createSurfClient } from '@thalalabs/surf';
-	import { decimal_to_aptos_price } from '$lib/aptos_utils';
+	import { decimal_to_aptos_price, normalize_address } from '$lib/aptos_utils';
 	import { OnNewWorkRequest } from '$lib/ContractTypes/Events';
-	import { CONTRACT_ADDRESS } from '$lib/constants';
+	import { CONTRACT_ADDRESS, CONTRACT_MODULE } from '$lib/constants';
 	import { goto } from '$app/navigation';
 
 
@@ -56,7 +56,7 @@
 			data: {
 				//type: "entry_function_payload",
 				function:
-					`${CONTRACT_ADDRESS}::my_auction::create_work_request`,
+					`${CONTRACT_ADDRESS}::${CONTRACT_MODULE}::create_work_request`,
 				typeArguments: [],
 				functionArguments: [decimal_to_aptos_price(price)]
 			}
@@ -70,7 +70,7 @@
 			for (let i = 0; i < respo.events.length; i++) {
 				if (
 					respo.events[i].type ===
-					'0xd0aaa17cc5072d219a23a3b51cc83052a2ec80746cf34cf15c57dd518af2d54::my_auction::OnNewWorkRequest'
+					`${CONTRACT_ADDRESS}::${CONTRACT_MODULE}::OnNewWorkRequest`
 				) {
 					target_event = OnNewWorkRequest.from_raw(respo.events[i].data);
 					break;
@@ -78,9 +78,11 @@
 			}
 
 			// send payload to server
+			const normalized_address = normalize_address(target_event.requester);
+
 			const upload_data = {
 				request_id: target_event.request_id,
-				requester: target_event.requester,
+				requester: normalized_address,
 				task_type: TaskTypeUtils.to_string(task_selected),
 				model: model_selected,
 				data: JSON.stringify(model_input_prop)
