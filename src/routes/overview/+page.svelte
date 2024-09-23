@@ -131,7 +131,7 @@
 		<div>
 			<hr role="presentation" class="w-full border-t border-zinc-950/10 border-white/10" />
 			<div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total Spend (APT)</div>
-			<div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{total_spend}</div>
+			<div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{aptos_price_to_decimal(total_spend)}</div>
 			<div class="mt-3 text-sm/6 sm:text-xs/6">
 				<span
 					class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-pink-400/15 text-pink-700 group-data-[hover]:bg-pink-400/25 bg-pink-400/10 text-pink-400 group-data-[hover]:bg-pink-400/20"
