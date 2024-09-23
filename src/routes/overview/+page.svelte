@@ -44,7 +44,7 @@
 		// query db to get all auction ids from this address
 		let norm_address = normalize_address(walletContext.walletCore?.account?.address!)
 		// checking just for this address issue and check if it works
-		norm_address = "0x" + norm_address.slice(3)
+		//norm_address = "0x" + norm_address.slice(3)
 
 		const db_res = await fetch(`/api/user-requests?address=${norm_address}`);
 		const all_ids_raw: {request_id: number, task_type: string}[] = (await db_res.json()).reverse();
