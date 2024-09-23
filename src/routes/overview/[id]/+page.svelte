@@ -18,7 +18,7 @@
 
 	function formatted_datetime_from_micro(timestamp: number): string {
 		const temp = new Date(timestamp / 1000);
-		return `${temp.getDay().toString().padStart(2, '0')}/${temp.getMonth().toString().padStart(2, '0')}/${temp.getFullYear()} ${temp.getHours().toString().padStart(2, '0')}:${temp.getMinutes().toString().padStart(2, '0')}:${temp.getSeconds().toString().padStart(2, '0')}`;
+		return `${temp.getDate().toString().padStart(2, '0')}/${(temp.getMonth()+1).toString().padStart(2, '0')}/${temp.getFullYear()} ${temp.getHours().toString().padStart(2, '0')}:${temp.getMinutes().toString().padStart(2, '0')}:${temp.getSeconds().toString().padStart(2, '0')}`;
 	}
 
 	//let {id} = $props();
@@ -150,7 +150,7 @@
 										<Table.Cell>
 											{bid.bidder}
 										</Table.Cell>
-										<Table.Cell class="hidden sm:table-cell">{bid.price}</Table.Cell>
+										<Table.Cell class="hidden sm:table-cell">{aptos_price_to_decimal(bid.price)}</Table.Cell>
 
 										<Table.Cell class="text-right"
 											>{#if bid.bidder === auction_data.winner?.bidder && bid.price === auction_data.winner?.price}<Check
