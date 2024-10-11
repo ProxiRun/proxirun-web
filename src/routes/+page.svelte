@@ -64,7 +64,7 @@
 			</p>
 			<div class="flex justify-center space-x-4">
 				<Button size="lg" href="/request">Get Started</Button>
-				<Button variant="outline" size="lg" class="text-black" href="https://github.com/ProxiRun"
+				<Button variant="outline" size="lg" class="text-black" href="https://github.com/ProxiRun" target="_blank"
 					>Learn More</Button
 				>
 			</div>
