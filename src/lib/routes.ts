@@ -25,15 +25,16 @@ export const routes = [
         target: '/request',
         icon: SquareTerminal
     },
-    {
-        label: 'Protocol Stats',
-        target: 'https://proxirun-analytics.vercel.app/',
-        icon: ChartPie
-    },
+
     {
         label: 'Contact',
         target: '/contact',
         icon: MessagesSquare
+    },
+    {
+        label: 'Protocol Stats',
+        target: 'https://proxirun-analytics.vercel.app/',
+        icon: ChartPie
     },
     {
         label: "Docs",
