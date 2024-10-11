@@ -10,22 +10,47 @@
 	import SquareUser from '~icons/lucide/square-user';
 	import TicketX from '~icons/lucide/ticket-x';
 
-
 	import PageWrapper from '$lib/mycomponents/PageWrapper.svelte';
 	import type { AuctionEntry } from '$lib/ContractTypes/StateTypes.js';
 	import { AuctionStatus, AuctionStatusUtils } from '$lib/ContractTypes/ContractEnums.js';
 	import { aptos_price_to_decimal } from '$lib/aptos_utils';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { ORCHESTRATOR_URL } from '$lib/constants';
 
 	function formatted_datetime_from_micro(timestamp: number): string {
 		const temp = new Date(timestamp / 1000);
-		return `${temp.getDate().toString().padStart(2, '0')}/${(temp.getMonth()+1).toString().padStart(2, '0')}/${temp.getFullYear()} ${temp.getHours().toString().padStart(2, '0')}:${temp.getMinutes().toString().padStart(2, '0')}:${temp.getSeconds().toString().padStart(2, '0')}`;
+		return `${temp.getDate().toString().padStart(2, '0')}/${(temp.getMonth() + 1).toString().padStart(2, '0')}/${temp.getFullYear()} ${temp.getHours().toString().padStart(2, '0')}:${temp.getMinutes().toString().padStart(2, '0')}:${temp.getSeconds().toString().padStart(2, '0')}`;
 	}
 
 	//let {id} = $props();
 
-	export let data; // data injected from the load function
-	const { id, auction_data, payload_data }: { id: string; auction_data: AuctionEntry | null, payload_data: any } = data;
+	let data = $props(); // data injected from the load function
+	const {
+		id,
+		auction_data,
+		payload_data
+	}: { id: string; auction_data: AuctionEntry | null; payload_data: any } = data.data;
+	//$inspect(payload_data);
 
+	let text_output = $state(null);
+
+	async function download_completion() {
+		switch (payload_data.task_type) {
+			case 'Text Generation':
+				let res = await fetch(`${ORCHESTRATOR_URL}/output/${id}`);
+				text_output = (await res.json()).content;
+				break;
+			case 'Image Generation':
+			case 'Voice Generation':
+				let res_file = await fetch(`${ORCHESTRATOR_URL}/output/${id}`);
+				const blob = await res_file.blob();
+				const url = URL.createObjectURL(blob);
+				window.open(url);
+				break;
+			default:
+				console.error('Unsupported task type: ' + payload_data.task_type);
+		}
+	}
 </script>
 
 <PageWrapper title="Request Overview" check_is_connected={false} controls={null}>
@@ -124,7 +149,15 @@
 							<Card.Title>Generated Response</Card.Title>
 							<Card.Description>The response provided by the worker</Card.Description>
 						</Card.Header>
-						<Card.Content></Card.Content>
+						<Card.Content>
+							{#if text_output == null}
+								<Button class="text-black " variant="outline" onclick={() => download_completion()}
+									>Download</Button
+								>
+							{:else}
+								<p>{text_output}</p>
+							{/if}
+						</Card.Content>
 					</Card.Root>
 				</div>
 			{/if}
@@ -150,7 +183,9 @@
 										<Table.Cell>
 											{bid.bidder}
 										</Table.Cell>
-										<Table.Cell class="hidden sm:table-cell">{aptos_price_to_decimal(bid.price)}</Table.Cell>
+										<Table.Cell class="hidden sm:table-cell"
+											>{aptos_price_to_decimal(bid.price)}</Table.Cell
+										>
 
 										<Table.Cell class="text-right"
 											>{#if bid.bidder === auction_data.winner?.bidder && bid.price === auction_data.winner?.price}<Check

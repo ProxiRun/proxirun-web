@@ -41,7 +41,7 @@
         "@aptos-labs/wallet-adapter-core": "^4.16.0",
         "@supabase/supabase-js": "^2.45.4",
         "@thalalabs/surf": "^1.7.3",
-        "bits-ui": "^0.21.13",
+        "bits-ui": "^0.21.16",
         "chart.js": "^4.4.4",
         "clsx": "^2.1.1",
         "lucide-svelte": "^0.439.0",
